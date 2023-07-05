@@ -57,7 +57,6 @@ See `/etc/traefik/config/dynamic/dynamic.yml` for an example of this configurati
 ## Example Directory Structure
 ```
 /etc/traefik 
-    
     |- bootstrap/
         |- dc-template.yml
         |- new.sh
@@ -79,6 +78,9 @@ See `/etc/traefik/config/dynamic/dynamic.yml` for an example of this configurati
             |- dynamic.yml
         |- traefik.yml
         |- .env
+    |- docker-compose.yml => config/docker-compose.yml
+    |- traefik.yml => config/traefik.yml
+    |- .env => config/.env
 ```
 # Useful aliases
 ```
