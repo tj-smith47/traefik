@@ -33,13 +33,14 @@ docker logs traefik
 - Doulbe check for any config errors.
 - Try visiting `http://service.domain.name` - it should redirect you to https and show trusted certs
 ## Start a New Proxied Service
-- You can read the script in `bootstrap/new.sh` or get the TL;DR with:
+- If you already have a service defined in a `docker-compose.yml`, you can just copy the labels section into your file.
+- To bootstrap a service, you can read the script in `bootstrap/new.sh` or get the TL;DR with:
 ```
-./etc/traefik/bootstrap/new.sh --help
+/etc/traefik/bootstrap/new.sh --help
 ```
 - I personally linked this as a binary, so I can run the script as `traefik`
 ```
-ln -s /etc/bootstrap/new.sh /usr/local/bin/traefik
+ln -s /etc/traefik/bootstrap/new.sh /usr/local/bin/traefik
 ```
 - Example:
 ```
