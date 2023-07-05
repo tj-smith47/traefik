@@ -1,0 +1,34 @@
+version: '3'
+
+services:
+  replaceme:
+    image: ${IMAGE}
+    container_name: ${SERVICE}
+    hostname: ${HOST}
+    restart: unless-stopped
+    env_file:
+      - '.env'
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+      - "/etc/${SERVICE}:/etc/${SERVICE}"
+      - "data:/data"
+    labels:
+      - traefik.enable=true
+      - providers.docker=true
+      - traefik.http.routers.${SERVICE}.tls=true
+      - traefik.http.routers.${SERVICE}.entrypoints=web,websecure
+      - traefik.http.routers.${SERVICE}.tls.certresolver=myresolver
+      - traefik.http.routers.${SERVICE}.middlewares=redirect-to-https
+      - traefik.http.services.${SERVICE}.loadbalancer.server.port=${PORT}
+      - traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https
+      - traefik.http.routers.${SERVICE}.rule=Host(`${HOST}.${DOMAIN}`)
+    networks:
+      - traefik
+
+volumes:
+  data:
+
+networks:
+  traefik:
+    name: traefik
+    external: true

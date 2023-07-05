@@ -1,0 +1,37 @@
+version: '3'
+
+services:
+  traefik:
+    image: ${IMAGE}
+    container_name: ${SERVICE}
+    hostname: ${HOST}
+    restart: unless-stopped
+    ports:
+      - '80:80'
+      - '443:443'
+      - '8080:8080'
+    env_file:
+      - '.env'
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+      - "/etc/letsencrypt:/etc/letsencrypt"
+      - "/etc/${SERVICE}:/etc/${SERVICE}"
+    labels:
+      - traefik.enable=true
+      - providers.docker=true
+      - traefik.http.routers.${SERVICE}.tls=true
+      - traefik.http.routers.${SERVICE}.service=api@internal
+      - traefik.http.routers.${SERVICE}.entrypoints=web,websecure
+      - traefik.http.routers.${SERVICE}.middlewares=redirect-to-https
+      - traefik.http.routers.${SERVICE}.tls.domains[0].main=${DOMAIN}
+      - traefik.http.routers.${SERVICE}.tls.domains[0].sans=*.${DOMAIN}
+      - traefik.http.services.${SERVICE}.loadbalancer.server.port=${PORT}
+      - traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https
+      - traefik.http.routers.${SERVICE}.rule=Host(`${HOST}.${DOMAIN}`)
+    networks:
+      - traefik
+
+networks:
+  traefik:
+    name: traefik
+    external: true

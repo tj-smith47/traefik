@@ -1,0 +1,3 @@
+config/dynamic/*.pem
+config/dynamic/*.crt
+config/dynamic/*.key

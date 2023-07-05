@@ -1,0 +1,42 @@
+http:
+  routers:
+    proxmox:
+      entryPoints:
+      - web
+      - websecure
+      rule: "Host(`pve.jarvispro.io`)"
+      service: proxmox
+      tls:
+        domains:
+          - main: "jarvispro.io"
+            sans:
+              - "*.jarvispro.io"
+    nas:
+      entryPoints:
+      - web
+      - websecure
+      rule: "Host(`nas.jarvispro.io`)"
+      service: nas
+      tls:
+        domains:
+          - main: "jarvispro.io"
+            sans:
+              - "*.jarvispro.io"
+
+  services:
+    proxmox:
+      loadBalancer:
+        servers:
+          # Proxies a local (non-docker) service
+          - url: https://sir.jarvispro.io:8006
+    nas:
+      loadBalancer:
+        servers:
+          # Proxies a VM on the Proxmox Server
+          - url: http://nas.jarvispro.io
+tls:
+  stores:
+    default:
+      defaultCertificate:
+        certFile: /etc/traefik/config/dynamic/fullchain.pem
+        keyFile: /etc/traefik/config/dynamic/privkey.pem
