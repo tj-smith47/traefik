@@ -82,7 +82,7 @@ See `/etc/traefik/config/dynamic/dynamic.yml` for an example of this configurati
     |- traefik.yml => config/traefik.yml
     |- .env => config/.env
 ```
-# Useful aliases
+## Useful aliases
 ```
 echo "alias dcud='docker compose up -d'" >> ~/.bashrc
 echo "alias dcd='docker compose down'" >> ~/.bashrc
