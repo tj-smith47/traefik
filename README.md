@@ -17,15 +17,14 @@
 
 ----
 
-### TRAEFIK 
+### Setup
 - To be able to start from `/etc/traefik`, link the 3 files inside `/etc/traefik/config/` one directory up.
 - Your dynamic directory should not watch `/etc/traefik/` (configured in `traefik.yml` under `providers.file.directory`) or else you will duplicate all of your container volumes.
 - Only Traefik should have the additional port declaration or (depending on how you decide to lay it out) the additional subdirectory `/config`
-## Start Traefik
-- Set your ENV's in `/etc/traefik/config/.env`
 - Ensure the path / name of your certs in `/etc/traefik/config/dynamic/` are listed correctly inside `/etc/traefik/config/dynamic/dynamic.yml`
 - Create the traefik network: `docker network create traefik`.
-- Start Traefik with:
+- Set your ENV's in `/etc/traefik/config/.env`
+## Start Traefik
 ```
 cd /etc/traefik
 docker compose up -d
